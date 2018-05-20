@@ -98,7 +98,10 @@ module.exports = {
 }
 ```
 
-### Snippets
+### Using DOM nodes
+
+Below example doesn't make use of any library we have out in the internet such as `enzyme` or `react-testing-library`
+(abstraction).
 
 1. Form
 Imagine we have a simple form which is intended to submit user login details then we would write the
@@ -114,7 +117,7 @@ import Login from '../login'; //component which we are intended to test
 1.2 Bare minimum
 ```javascript
 const onSubmit = jest.fn(); //mocking submit defined in the component
-const container = document.createElement('div');
+const container = document.createElement('div'); // this will create document
 ReactDOM.render(<Login onSubmit={onSubmit}/>, container); // passing submit as props to the component while rendering
 ```
 
@@ -123,6 +126,7 @@ ReactDOM.render(<Login onSubmit={onSubmit}/>, container); // passing submit as p
 const form = container.querySelector('form'); // this will find the form dom element.
 // console.log(form.elements.username)
 const { username, password } = form.elements; // two elements defined in form i.e <Input name="username" />
+// we retrieved form values by their name which is defined in the Input
 ```
 
 1.4 Faking the data
@@ -194,4 +198,58 @@ expect(utilMocks.posts.create).toHaveBeenCalledWith({
       title: title.value,
       date: expect.any(String)
     })
+```
+
+### Using Abstraction ( react-testing-library )
+
+1. Form
+Imagine we have a simple form which is intended to submit user login details then we would write the
+testing as mentioned below,
+
+1.1 Import
+```JavaScript
+import React from 'react';
+import {render, Simulate} from 'react-testing-library'; // abstraction library
+import Login from '../login'; //component which we are intended to test
+```
+note that we don't need to import ReactDOM from `react-dom` anymore.
+
+1.2 Bare minimum
+```javascript
+const onSubmit = jest.fn(); //mocking submit defined in the component
+// In below step we will make use of elements from library render.
+const {container, getByLabelText, getByText} = render(<Login onSubmit={onSubmit}/>)
+// above snippet replaces the document creation and ReactDOM render.
+```
+
+1.3 Fetching the form
+```javascript
+const form = container.querySelector('form'); // this will find the form dom element.
+// const { username, password } = form.elements;
+const username = getByLabelText('Username')
+const password = getByLabelText('Password')
+// these are case insensitive
+```
+
+1.4 Faking the data
+```javascript
+username.value="Tom";
+password.value="123";
+```
+
+1.5 Submitting the form
+```javascript
+const submitButton = getByText('Submit') // added to find the button
+Simulate.submit(form); // instead of creating window.Event and dispatchEvent we make use of react Simulate.
+// here form is from step 1.3
+```
+
+1.6 Assertion or validation
+```javascript
+expect(onSubmit).toHaveBeenCalledTimes(1);
+expect(onSubmit).toHaveBeenCalledWith({
+   username: "Tom",
+   password: "123"
+ })
+  expect(submitButton.type).toBe('submit')
 ```
