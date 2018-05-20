@@ -39,7 +39,8 @@ to understand the `presets`.
 now the javascript file has the actual configurations
 ```javascript
 // file: .babelrc.js
-const isTest = String(process.env.NODE_ENV) === 'test' //added this to check if it's test and refer common.js else set to false to skip
+//added this to check if it's test and refer common.js else set to false to skip
+const isTest = String(process.env.NODE_ENV) === 'test'
 module.exports = {
   presets: [['env', {modules: isTest ? 'commonjs' : false}], 'react'],
   plugins: [
@@ -57,7 +58,8 @@ There are two ways we can refer `jest` configuration. We can add the configurati
 ```javascript
 //file: package.json
 "jest": {
-  "testEnvironment": "node" // skips js-dom installation but just node
+  // skips js-dom installation but just node
+  "testEnvironment": "node"
 }
 ```
 Or we can create `jest.config.js` and jest will pick it up by default
@@ -65,8 +67,10 @@ Or we can create `jest.config.js` and jest will pick it up by default
 // file:jest.config.js
 module.exports ={
   moduleNameMapper: {
-    '\\.module\\.css$': 'identity-obj-proxy', // adds more details than empty module return in test
-    '\\.css$': require.resolve('./test/style-mock') // node will not understand something ends with css so we need to define what to do
+    // adds more details than empty module return in test
+    '\\.module\\.css$': 'identity-obj-proxy',
+    // node will not understand something ends with css so we need to define what to do
+    '\\.css$': require.resolve('./test/style-mock')
   }
 }
 ```
@@ -88,5 +92,8 @@ module.exports = {
     'transform-object-rest-spread',
     isTest ? 'dynamic-import-node' : null
   ].filter(Boolean)
+  /* letting dynamic import be null for testing by checking `isTest` and removing `null`
+  values by using filter(Boolean).
+  */
 }
 ```
