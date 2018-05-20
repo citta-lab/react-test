@@ -97,3 +97,55 @@ module.exports = {
   */
 }
 ```
+
+### Snippets
+
+1. Mock API Call
+If we have api call in our component then we should be testing the API call with mock to fake the process with defined/given data instead
+of calling the actual api itself.
+
+1.1 Import
+```javascript
+/**
+ * the idea behind the below import is to reference the mock we will be creating later
+ below by pointing out to the actual api. This will be figured out by jest to use the
+ mock api call whenever we use utilMocks for our CRUD functions.
+ */
+import * as utilMocks from '../../utils/api';
+```
+
+1.2 Mock
+```javascript
+/**
+MODULE DEPENDENCY: whenever we have module dependency we need to mock the module as mentioned below
+instead of just faking it with `jest.fn()`. Actual api has create method for posts and hence we are
+returning the create upon calling posts with resolved promise.
+*/     
+jest.mock('../../utils/api', () => {
+  return {
+    posts: {
+      create: jest.fn((() => Promise.resolve()))
+    }
+  }
+})
+```
+and this should be declared before executing the test case. For reference the posts in actual api
+(i.e ../../utils/api) looks like below.
+```javascript
+const posts = {
+  //... other methods which we are not interested now
+  create: post => requests.post('/posts', post),
+}
+```
+
+1.3 Usage
+whenever we use the test to push data via component this mock will process the data and resolves the
+request. Example of pushing the data is
+```javascript
+/* assertion to check if the api calls are submitted with the data */
+expect(utilMocks.posts.create).toHaveBeenCalledTimes(1);
+expect(utilMocks.posts.create).toHaveBeenCalledWith({
+      title: title.value,
+      date: expect.any(String)
+    })
+```
