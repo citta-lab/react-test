@@ -100,11 +100,57 @@ module.exports = {
 
 ### Snippets
 
-1. Mock API Call
+1. Form
+Imagine we have a simple form which is intended to submit user login details then we would write the
+testing as mentioned below,
+
+1.1 Import
+```JavaScript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Login from '../login'; //component which we are intended to test
+```
+
+1.2 Bare minimum
+```javascript
+const onSubmit = jest.fn(); //mocking submit defined in the component
+const container = document.createElement('div');
+ReactDOM.render(<Login onSubmit={onSubmit}/>, container); // passing submit as props to the component while rendering
+```
+
+1.3 Fetching the form
+```javascript
+const form = container.querySelector('form'); // this will find the form dom element.
+// console.log(form.elements.username)
+const { username, password } = form.elements; // two elements defined in form i.e <Input name="username" />
+```
+
+1.4 Faking the data
+```javascript
+username.value="Tom";
+password.value="123";
+```
+
+1.5 Submitting the form
+```javascript
+const submit = new window.Event('submit');  // make sure to use window.Event not window.event
+form.dispatchEvent(submit);
+```
+
+1.6 Assertion or validation
+```javascript
+expect(onSubmit).toHaveBeenCalledTimes(1);
+expect(onSubmit).toHaveBeenCalledWith({
+   username: "Tom",
+   password: "123"
+ })
+```
+
+2. Mock API Call
 If we have api call in our component then we should be testing the API call with mock to fake the process with defined/given data instead
 of calling the actual api itself.
 
-1.1 Import
+2.1 Import
 ```javascript
 /**
  * the idea behind the below import is to reference the mock we will be creating later
@@ -114,7 +160,7 @@ of calling the actual api itself.
 import * as utilMocks from '../../utils/api';
 ```
 
-1.2 Mock
+2.2 Mock
 ```javascript
 /**
 MODULE DEPENDENCY: whenever we have module dependency we need to mock the module as mentioned below
@@ -138,7 +184,7 @@ const posts = {
 }
 ```
 
-1.3 Usage
+2.3 Usage
 whenever we use the test to push data via component this mock will process the data and resolves the
 request. Example of pushing the data is
 ```javascript
