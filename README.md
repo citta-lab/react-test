@@ -253,3 +253,16 @@ expect(onSubmit).toHaveBeenCalledWith({
  })
   expect(submitButton.type).toBe('submit')
 ```
+At this point we should have our testing passing however if we want to refactor the code little more to simplify then
+we can use `renderIntoDocument` instead of `render` from `react-testing-library`. This way we don't need to use
+reacts `Simulate` method to submit the form. So the changes would look like below,
+
+```javascript
+import {renderIntoDocument, cleanup} from 'react-testing-library'; // abstraction library
+afterEach(cleanup);  // use this to clean up the document element.
+//... rest of the code
+const {container, getByLabelText, getByText} = renderIntoDocument(<Login onSubmit={onSubmit}/>)
+// ... remaining code
+// remove Simulate.submit(form);
+submitButton.click()
+```
