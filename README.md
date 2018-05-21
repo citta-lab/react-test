@@ -103,7 +103,7 @@ module.exports = {
 Below example doesn't make use of any library we have out in the internet such as `enzyme` or `react-testing-library`
 (abstraction).
 
-1. Form
+1. Form  
 Imagine we have a simple form which is intended to submit user login details then we would write the
 testing as mentioned below,
 
@@ -154,7 +154,7 @@ expect(onSubmit).toHaveBeenCalledWith({
  })
 ```
 
-2. Mock API Call
+2. Mock API Call     
 If we have api call in our component then we should be testing the API call with mock to fake the process with defined/given data instead
 of calling the actual api itself.
 
@@ -207,7 +207,7 @@ expect(utilMocks.posts.create).toHaveBeenCalledWith({
 ### Using Abstraction ( react-testing-library )
 
 1. Form
-Imagine we have a simple form which is intended to submit user login details then we would write the
+ Imagine we have a simple form which is intended to submit user login details then we would write the
 testing as mentioned below,
 
 1.1 Import
