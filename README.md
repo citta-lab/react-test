@@ -267,8 +267,11 @@ reacts `Simulate` method to submit the form. So the changes would look like belo
 import {renderIntoDocument, cleanup} from 'react-testing-library'; // abstraction library
 afterEach(cleanup);  // use this to clean up the document element.
 //... rest of the code
+
+
 const {container, getByLabelText, getByText} = renderIntoDocument(<Login onSubmit={onSubmit}/>)
 // ... remaining code
+
 // remove Simulate.submit(form);
 submitButton.click()
 ```
