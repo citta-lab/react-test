@@ -123,10 +123,14 @@ ReactDOM.render(<Login onSubmit={onSubmit}/>, container); // passing submit as p
 
 1.3 Fetching the form
 ```javascript
-const form = container.querySelector('form'); // this will find the form dom element.
+/* this will find the form dom element */
+const form = container.querySelector('form');
 // console.log(form.elements.username)
-const { username, password } = form.elements; // two elements defined in form i.e <Input name="username" />
-// we retrieved form values by their name which is defined in the Input
+const { username, password } = form.elements;
+/**
+* two elements defined in form i.e <Input name="username" />
+* we retrieved form values by their name which is defined in the Input
+*/
 ```
 
 1.4 Faking the data
@@ -217,9 +221,9 @@ note that we don't need to import ReactDOM from `react-dom` anymore.
 1.2 Bare minimum
 ```javascript
 const onSubmit = jest.fn(); //mocking submit defined in the component
-// In below step we will make use of elements from library render.
+/* In below step we will make use of elements from library render. */
 const {container, getByLabelText, getByText} = render(<Login onSubmit={onSubmit}/>)
-// above snippet replaces the document creation and ReactDOM render.
+/* above snippet replaces the document creation and ReactDOM render */
 ```
 
 1.3 Fetching the form
@@ -240,8 +244,10 @@ password.value="123";
 1.5 Submitting the form
 ```javascript
 const submitButton = getByText('Submit') // added to find the button
-Simulate.submit(form); // instead of creating window.Event and dispatchEvent we make use of react Simulate.
-// here form is from step 1.3
+Simulate.submit(form);
+/* instead of creating window.Event and dispatchEvent we make use of react Simulate.
+   here `form` is from step 1.3
+*/
 ```
 
 1.6 Assertion or validation
