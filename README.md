@@ -4,14 +4,14 @@
 
 ### Installation
 
-####1. npm install:
+#### 1. npm install:
 ```javascript
 npm install --save-dev jest
 ```
 The reason we use `dev` is we are not interested in shipping the testing configurations to the prod and we shouldn't
 so the configurations will only be added to `development`.
 
-####2. package.json
+#### 2. package.json
 Adding test script to package.json,
 ```json
 "scripts": {
@@ -21,7 +21,7 @@ Adding test script to package.json,
     "start": "serve -s dist --port 8080"
   },
 ```
-####3. webpack/babel problem
+#### 3. webpack/babel problem
 
 Error: `SyntaxError: Unexpected token import`.
 
@@ -50,7 +50,7 @@ module.exports = {
   ],
 }
 ```
-####4. jest config:
+#### 4. jest config:
 
 Error: `SyntaxError: Unexpected token .` ( pointing it to .css filename)
 
@@ -77,7 +77,7 @@ module.exports ={
 style-mock file has this line `module.exports = {}`. So if we execute test it will return just the empty `div` nothing else as our export is empty object. To
   over come this problem we have added `identity-obj-proxy` which also adds the `className` with `divs`.
 
-####5. Babel installs
+#### 5. Babel installs
 ```javascript
 npm install --save-dev babel-plugin-dynamic-import-node
 ```
